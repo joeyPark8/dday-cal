@@ -14,16 +14,6 @@ class Calculator {
     12: 31
   };
 
-  Cal() { //if it is leap year, February is 29
-    var now = new DateTime.now();
-
-    if (now.year % 4 == 0 && now.year % 100 != 0) {
-      callender[2] = 29;
-    } else if (now.year % 400 == 0) {
-      callender[2] = 29;
-    }
-  }
-
   calculate(int year, int month, int date) {
     var now = new DateTime.now();
 
@@ -78,6 +68,39 @@ class Calculator {
       }
     }
 
+    if (year > now.year) {
+      for (var i = now.year + 1; i < year; i += 1) {
+        if (_isLeapYear(i)) {
+          leftDay += 1;
+        }
+      }
+
+      if (_isLeapYear(year)) {
+        if (month > 2) {
+          leftDay += 1;
+        }
+      }
+    } else {
+      if (_isLeapYear(now.year)) {
+        if (month < 3) {
+          if (date < 29) {
+            leftDay += 1;
+          }
+        }
+      }
+    }
+
     return leftDay;
+  }
+
+  _isLeapYear(var year) {
+    if (year % 4 == 0 && year % 100 != 0) {
+      return true;
+    }
+    else if (year % 400 == 0) {
+      return true;
+    }
+
+    return false;
   }
 }
